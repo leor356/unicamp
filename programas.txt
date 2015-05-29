@@ -1,0 +1,10 @@
+Chrome
+Sublime Text
+git
+mega
+gParted
+UnetBootin
+LibreOffice
+Skype
+Vlc
+~bashrc
