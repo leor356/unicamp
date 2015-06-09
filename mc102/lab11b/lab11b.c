@@ -14,9 +14,9 @@ struct time {
 typedef struct time time_t;
 
 /* Encontra em timesChave[] uma string nomeTime */
-int encontraTime(char nomeTime[], time_t timesChave[]){
+int encontraTime(char nomeTime[], time_t timesChave[],int numeroDeTimes){
    int i;
-   for(i=0;i<6;i++){
+   for(i=0;i<numeroDeTimes;i++){
       if(!(strcmp(nomeTime, timesChave[i].nome)))
          return i;
    }
@@ -55,51 +55,47 @@ void inicializaTimes(time_t timesChave[]){
 /* Procura o melhor classificado entre i+1 e 6 em times[] */
 int melhorClassificado(time_t times[], int i, int confrontoDireto[][6]){
    
-   time_t aux = times[i];
-   int jParaAux = i, j;
-   double razaoPontosTime, razaoPontosAux, razaoSetsTime, razaoSetsAux;
+   int jMax = i, j;
+   double razaoPontosTime, razaoPontosMax, razaoSetsTime, razaoSetsMax;
 
    for(j=i+1;j<6;j++){
+
       /* Troca por pontos */
-      if(times[j].pontos > aux.pontos){
-         jParaAux = j;
-         aux = times[j];
-      }else if(times[j].pontos == aux.pontos){
+      if(times[j].pontos > times[jMax].pontos){
+         jMax = j;
+      }else if(times[j].pontos == times[jMax].pontos){
+
          /* Troca por vitorias */
-         if(times[j].vitorias > aux.vitorias){
-            jParaAux = j;
-            aux = times[j];
-         }else if(times[j].vitorias == aux.vitorias){
+         if(times[j].vitorias > times[jMax].vitorias){
+            jMax = j;
+         }else if(times[j].vitorias == times[jMax].vitorias){
 
             /* Troca por razao de sets */
-            razaoSetsTime = (double) times[j].setsGanhos / (times[j].setsGanhos + times[j].setsPerdidos);
-            razaoSetsAux = (double) aux.setsGanhos / (aux.setsGanhos + aux.setsPerdidos);
+            razaoSetsTime = (double)times[j].setsGanhos / (times[j].setsGanhos + times[j].setsPerdidos);
+            razaoSetsMax = (double)times[jMax].setsGanhos / (times[jMax].setsGanhos + times[jMax].setsPerdidos);
 
-            if(razaoSetsTime > razaoSetsAux){
-               jParaAux = j;
-               aux = times[j];
-            }else if(razaoSetsTime == razaoSetsAux){
+            if(razaoSetsTime > razaoSetsMax){
+               jMax = j;
+            }else if(razaoSetsTime == razaoSetsMax){
 
                /* Troca por razao de pontos */
-               razaoPontosTime = (double) times[j].pontosGanhos / (times[j].pontosGanhos + times[j].pontosPerdidos);
-               razaoPontosAux = (double) aux.pontosGanhos / (aux.pontosGanhos + aux.pontosPerdidos);
+               razaoPontosTime = (double)times[j].pontosGanhos / (times[j].pontosGanhos + times[j].pontosPerdidos);
+               razaoPontosMax = (double)times[jMax].pontosGanhos / (times[jMax].pontosGanhos + times[jMax].pontosPerdidos);
 
-               if(razaoPontosTime > razaoPontosAux){
-                  jParaAux = j;
-                  aux = times[j];
-               }else if(razaoPontosTime == razaoPontosAux){
+               if(razaoPontosTime > razaoPontosMax){
+                  jMax = j;
+               }else if(razaoPontosTime == razaoPontosMax){
 
                   /* Troca por confronto direto */
-                  if(confrontoDireto[times[j].indice][aux.indice] == 1){
-                     jParaAux = j;
-                     aux = times[j];
+                  if(confrontoDireto[times[j].indice][times[jMax].indice] == 1){
+                     jMax = j;
                   }
                }
             }
          }
       }
    }
-   return jParaAux;
+   return jMax;
 }
 
 /* Atualiza os atributos relativos aos sets e aos pontos */
@@ -173,11 +169,11 @@ void leResultadosChave(time_t timesChave[], int confrontoDireto[][6]) {
       }while(!venceu);
 
       /* Procura o indice dos times e se nao encontrar insere o time */
-      indTime1 = encontraTime(time1, timesChave);
+      indTime1 = encontraTime(time1, timesChave, numeroDeTimes);
       if(indTime1 == -1)
          indTime1 = insereNaChave(time1, timesChave, &numeroDeTimes);
 
-      indTime2 = encontraTime(time2, timesChave);
+      indTime2 = encontraTime(time2, timesChave, numeroDeTimes);
       if(indTime2 == -1)
          indTime2 = insereNaChave(time2, timesChave, &numeroDeTimes);
 

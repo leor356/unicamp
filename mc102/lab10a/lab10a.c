@@ -69,7 +69,7 @@ int main(){
   palavra = malloc((M+1) * sizeof(char));
   texto = malloc(D * sizeof(char *));
   for(i=0;i<D;i++){
-    texto[i] = malloc(M * sizeof(char));
+    texto[i] = malloc((M+1) * sizeof(char));
     bucketPalavras[i] = 0;
   }
 
