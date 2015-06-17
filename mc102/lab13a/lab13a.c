@@ -9,19 +9,20 @@
 #include <stdlib.h>
 
 int calculAltura(){
-	/* alturaLocal eh o valor da altura da bomba atual 
-		 altura eh a maior altura encontrada
-		 subBombas eh o numero de sub bombas da bomba atual
+	/*  
+		alturaLocal eh o valor da altura da bomba atual 
+		altura eh a maior altura encontrada
+		subBombas eh o numero de sub bombas da bomba atual
 	*/
 	int alturaLocal, altura=0, subBombas;
 
 	scanf(" %d", &subBombas);
 
-	/* Quando a bomba nao tem sub bombas, */
+	/* Caso base quando nao tem mais sub bombas */
 	if(subBombas == 0)
 		return 1;
 
-	/* Para cada subBomba calcula a altura local eh 1 */
+	/* Para cada subBomba calcula a altura local e acha a maior */
 	while(subBombas > 0){		
 		alturaLocal = calculAltura();
 
